@@ -80,8 +80,9 @@ class BeeClust:
 
     def _move_bees(self):
         moved = 0
-        for bee_pos in self.bees:
-            moved += self._move_bee(bee_pos, self._bee_direction(self._map[bee_pos]))
+        bees = self.bees
+        for bee_pos in bees:
+            moved += self._move_bee(bee_pos, self._map[bee_pos])
         return moved
 
     def _wait(self, bee_pos):
@@ -89,18 +90,22 @@ class BeeClust:
 
     def _get_new_pos(self, actual_pos, direction):
         if direction == self.BEE_SOUTH:
+            print('new pos S')
             if actual_pos[0] < len(self._map) - 1:
                 return actual_pos[0] + 1, actual_pos[1]
             return actual_pos
         if direction == self.BEE_WEST:
+            print('new pos W')
             if actual_pos[1] > 0:
                 return actual_pos[0], actual_pos[1] - 1
             return actual_pos
         if direction == self.BEE_EAST:
+            print('new pos E')
             if actual_pos[1] < len(self._map[0]) - 1:
                 return actual_pos[0], actual_pos[1] + 1
             return actual_pos
         if actual_pos[0] > 0:
+            print('new pos N')
             return actual_pos[0] - 1, actual_pos[1]
         return actual_pos
 
@@ -119,7 +124,7 @@ class BeeClust:
             else:
                 new_dir = self._bee_direction(_bee_direction)
                 self._map[actual_bee_position] = 0
-                self._map[self._get_new_pos(actual_bee_position, _bee_direction)] = new_dir
+                self._map[self._get_new_pos(actual_bee_position, new_dir)] = new_dir
                 moved = 1
         elif _bee_direction == self.BEE_EAST:
             if actual_bee_position[1] >= len(self._map[0]) - 1 or self._map[actual_bee_position[0],
@@ -135,7 +140,7 @@ class BeeClust:
             else:
                 new_dir = self._bee_direction(_bee_direction)
                 self._map[actual_bee_position] = 0
-                self._map[self._get_new_pos(actual_bee_position, _bee_direction)] = new_dir
+                self._map[self._get_new_pos(actual_bee_position, new_dir)] = new_dir
                 moved = 1
 
         elif _bee_direction == self.BEE_NORTH:
@@ -151,7 +156,7 @@ class BeeClust:
             else:
                 new_dir = self._bee_direction(_bee_direction)
                 self._map[actual_bee_position] = 0
-                self._map[self._get_new_pos(actual_bee_position, _bee_direction)] = new_dir
+                self._map[self._get_new_pos(actual_bee_position, new_dir)] = new_dir
                 moved = 1
 
         elif _bee_direction == self.BEE_SOUTH:
@@ -168,7 +173,7 @@ class BeeClust:
             else:
                 new_dir = self._bee_direction(_bee_direction)
                 self._map[actual_bee_position] = 0
-                self._map[self._get_new_pos(actual_bee_position, _bee_direction)] = new_dir
+                self._map[self._get_new_pos(actual_bee_position, new_dir)] = new_dir
                 moved = 1
         elif self._map[actual_bee_position] == -1:
             self._map[actual_bee_position] = numpy.random.choice([self.BEE_EAST, self.BEE_NORTH,
